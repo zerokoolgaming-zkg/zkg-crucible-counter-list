@@ -1,0 +1,26 @@
+<!doctype html>
+<html><head><meta charset="utf-8"/><title>Diagnostics</title>
+<link rel="stylesheet" href="style.css"/>
+<script>window.API_URL="https://script.google.com/macros/s/AKfycbxBBpP4u__o5K0n8NfkUtB1ZfH3pSn6YLSV9MHGACX_9JZvecVWmolA3_WQYugJOlbajw/exec";</script>
+</head><body class="container">
+  <h2>Diagnostics</h2>
+  <div id="out" class="results"></div>
+  <script>
+  const O = document.getElementById('out');
+  async function q(name, url){
+    const card = document.createElement('div');
+    card.className = 'match-card';
+    card.innerHTML = `<h3>${name}</h3><div class="muted">running...</div>`;
+    O.appendChild(card);
+    try{
+      const r = await fetch(url); const d = await r.json();
+      card.lastElementChild.textContent = JSON.stringify(d,null,2);
+    }catch(e){ card.lastElementChild.textContent = 'ERR: '+e.message; }
+  }
+  const U = window.API_URL;
+  q('Ping', U+'?action=ping');
+  q('PNGs', U+'?action=getPNGs');
+  q('Teams', U+'?action=getTeams');
+  q('Characters', U+'?action=getCharacters');
+  </script>
+</body></html>
