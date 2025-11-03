@@ -57,15 +57,29 @@ function maybeAutoSearch(){
   }
 }
 
+/* ------------------------
+   UPDATED renderResults()
+   ------------------------ */
 function renderResults(payload){
   const root = el('results');
-  if(!payload.ok){ root.classList.add('muted'); root.textContent = payload.error || "No match found."; return; }
+  if(!payload.ok){ 
+    root.classList.add('muted'); 
+    root.textContent = payload.error || "No match found."; 
+    return; 
+  }
+
   const { results } = payload;
-  if(!results || !results.length){ root.classList.add('muted'); root.textContent = "No match found."; return; }
+  if(!results || !results.length){ 
+    root.classList.add('muted'); 
+    root.textContent = "No match found."; 
+    return; 
+  }
 
   root.classList.remove('muted');
   root.innerHTML = "";
-  results.slice(0,6).forEach((r,idx) => {
+
+  results.slice(0,6).forEach((r, idx) => {
+    // Counter team grid
     const grid = document.createElement('div');
     grid.className = 'resultsGrid';
     r.counterTeam.forEach(name => {
@@ -73,31 +87,35 @@ function renderResults(payload){
       div.className = 'resultCard';
       const file = PNG_MAP[(name||"").toLowerCase()] || "";
       const src = file ? (PORTRAIT_BASE + file) : "assets/question.png";
-      div.innerHTML = `<div class="nameTag">${escapeHtml(name||"")}</div>
-                       <img src="${src}" alt="${escapeHtml(name||'portrait')}" width="108" height="108" onerror="this.src='assets/question.png'">`;
+      div.innerHTML = `
+        <div class="nameTag">${escapeHtml(name||"")}</div>
+        <img src="${src}" alt="${escapeHtml(name||'portrait')}" width="108" height="108"
+             onerror="this.src='assets/question.png'">
+      `;
       grid.appendChild(div);
     });
 
-    // --- NEW SECTION: use backend horizontal info block ---
-    const extraDiv = document.createElement('div');
-    extraDiv.className = 'extras';
-    if (r.extraInfo) {
-      extraDiv.innerHTML = r.extraInfo; // HTML from backend (Season, Room, etc.)
-    } else if (r.extras && r.extras.length) {
-      extraDiv.textContent = r.extras.join('\n');
-    }
-    // ------------------------------------------------------
-
+    // Divider line + Match title
     root.appendChild(document.createElement('hr'));
     const title = document.createElement('div');
     title.className = 'nameTag';
-    title.style.margin='6px 0';
-    title.textContent = `Match #${idx+1}`;
+    title.style.margin = '6px 0';
+    title.textContent = `Match #${idx + 1}`;
     root.appendChild(title);
+
+    // Add character grid
     root.appendChild(grid);
-    if (r.extraInfo || (r.extras && r.extras.length)) root.appendChild(extraDiv);
+
+    // Add backend-provided horizontal info
+    if (r.extraInfo) {
+      const infoDiv = document.createElement('div');
+      infoDiv.className = 'extras';
+      infoDiv.innerHTML = r.extraInfo; // full formatted HTML
+      root.appendChild(infoDiv);
+    }
   });
 }
+/* ------------------------ */
 
 async function findCounters(preset){
   const M = preset || membersSelected();
