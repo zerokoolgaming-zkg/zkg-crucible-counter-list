@@ -1,78 +1,69 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>ZKG Crucible Planner</title>
-  <link rel="stylesheet" href="style.css"/>
-  <script>window.API_URL="https://script.google.com/macros/s/AKfycbxBBpP4u__o5K0n8NfkUtB1ZfH3pSn6YLSV9MHGACX_9JZvecVWmolA3_WQYugJOlbajw/exec";</script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ZKG Crucible COUNTER LIST</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<header class="topbar">
-  <div class="brand">
-    <img src="emblem.png" alt="ZKG" class="emblem" onerror="this.style.display='none'"/>
-    <h1>ZKG Crucible Planner</h1>
-  </div>
-  <div class="actions">
-    <a class="btn btn-donate" href="https://streamelements.com/zerokoolgamer-4649/tip" target="_blank" rel="noopener">Donate to ZKG</a>
-  </div>
-</header>
+  <a class="donateBtn" href="https://streamelements.com/zerokoolgamer-4649/tip" target="_blank" rel="noopener noreferrer">DONATE TO ZKG</a>
 
-<main class="container">
-  <section class="filters">
-    <div class="row">
-      <div class="dropdown-block">
-        <label>Team (optional)</label>
-        <select id="teamSelect"></select>
-        <div class="preview"><div class="missing-ph">TEAM</div></div>
-      </div>
-      <div class="dropdown-block">
-        <label>Team Member 1</label>
-        <select class="charSelect"></select>
-        <div class="preview"><img/><div class="missing-ph">?</div></div>
-      </div>
-      <div class="dropdown-block">
-        <label>Team Member 2</label>
-        <select class="charSelect"></select>
-        <div class="preview"><img/><div class="missing-ph">?</div></div>
-      </div>
-      <div class="dropdown-block">
-        <label>Team Member 3</label>
-        <select class="charSelect"></select>
-        <div class="preview"><img/><div class="missing-ph">?</div></div>
-      </div>
-      <div class="dropdown-block">
-        <label>Team Member 4</label>
-        <select class="charSelect"></select>
-        <div class="preview"><img/><div class="missing-ph">?</div></div>
-      </div>
-      <div class="dropdown-block">
-        <label>Team Member 5</label>
-        <select class="charSelect"></select>
-        <div class="preview"><img/><div class="missing-ph">?</div></div>
-      </div>
+  <header class="hdr">
+    <div class="brand">
+      <img src="assets/zkg_badge.png" class="badge" alt="ZKG Emblem" />
+      <h1>ZKG - Crucible Counter Search</h1>
     </div>
-    <div class="actions-inline">
-      <button id="resetBtn" class="btn">Reset</button>
-      <span id="autoHint" class="hint">Counters auto‑run when 5 members are selected.</span>
-    </div>
-    <div id="loadingLine" class="searching hidden">Searching…</div>
-  </section>
+    <div class="energy"></div>
+    <div class="goldline"></div>
+  </header>
 
-  <h2 class="results-title">
-    Results
-    <a class="discord-link" href="https://discord.gg/c23YXnUWb6" target="_blank" rel="noopener">
-      <span>Submit your Crucible Counters to my <strong>Discord</strong></span>
-    </a>
-  </h2>
+  <main class="container">
+    <a class="hiddenAdmin" href="diagnostics.html" aria-label="Admin diagnostics"></a>
 
-  <section id="result" class="results muted">Choose exactly 5 characters to search.</section>
-</main>
+    <div id="errorBox" class="error" style="display:none"></div>
+    <div id="loadingSpinner" class="loading"><div class="spinner"></div><span>Loading data…</span></div>
 
-<footer class="foot">
-  <a href="diagnostics.html" target="_blank" rel="noopener">Diagnostics</a>
-</footer>
+    <section class="card">
+      <h2>Select Team & Characters</h2>
+      <div class="row6">
+        <div class="slot">
+          <label>Team (optional)</label>
+          <select id="teamSelect"><option>Loading…</option></select>
+          <div class="portrait ph"></div>
+          <div id="teamLoadingMsg" class="loadingMsg" style="display:none"></div>
+        </div>
+        <div class="slot"><label>Team Member 1</label><select id="char1" class="char-select"></select><div class="portrait"><img id="charImg1" alt=""></div></div>
+        <div class="slot"><label>Team Member 2</label><select id="char2" class="char-select"></select><div class="portrait"><img id="charImg2" alt=""></div></div>
+        <div class="slot"><label>Team Member 3</label><select id="char3" class="char-select"></select><div class="portrait"><img id="charImg3" alt=""></div></div>
+        <div class="slot"><label>Team Member 4</label><select id="char4" class="char-select"></select><div class="portrait"><img id="charImg4" alt=""></div></div>
+        <div class="slot"><label>Team Member 5</label><select id="char5" class="char-select"></select><div class="portrait"><img id="charImg5" alt=""></div></div>
+      </div>
+      <div class="actions">
+        <button id="resetBtn" class="btn">Reset</button>
+        <span class="muted small">Counters auto-run when 5 members are selected.</span>
+      </div>
+    </section>
 
-<script src="script.js"></script>
+    <section class="card">
+      <div class="resultsHeader">
+        <h2>Results</h2>
+        <div class="subheader">Submit your Crucible Counters to my <a class="subLink" href="https://discord.gg/c23YXnUWb6" target="_blank" rel="noopener noreferrer">DISCORD SERVER CLICK HERE</a></div>
+      </div>
+      <div id="results" class="results muted">Choose exactly 5 characters to search.</div>
+    </section>
+
+    <p class="muted small">Diagnostics: <a href="diagnostics.html">/diagnostics.html</a></p>
+  </main>
+
+  <button id="backToTop" class="backTop" aria-label="Back to top" title="Back to top">↑</button>
+
+  <footer class="ftr muted small">© ZKG • Unofficial MSF utility.</footer>
+
+  <script>
+    const backend_url = "https://script.google.com/macros/s/AKfycbxBBpP4u__o5K0n8NfkUtB1ZfH3pSn6YLSV9MHGACX_9JZvecVWmolA3_WQYugJOlbajw/exec";
+    const PORTRAIT_BASE = "https://zerokoolgaming-zkg.github.io/zkg-crucible-planner/png/";
+  </script>
+  <script src="script.js"></script>
 </body>
 </html>
